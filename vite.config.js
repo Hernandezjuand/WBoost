@@ -40,5 +40,10 @@ export default defineConfig({
     'process.env': {
       NODE_ENV: JSON.stringify(process.env.NODE_ENV || 'development')
     }
-  }
+  },
+  resolve: {
+    alias: {
+      'pdfjs-dist/build/pdf.worker.entry': 'pdfjs-dist/build/pdf.worker.js',
+    },
+  },
 }) 

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import * as pdfjs from 'pdfjs-dist';
-import pdfjsWorker from 'pdfjs-dist/build/pdf.worker.entry';
+import pdfjsWorker from 'pdfjs-dist/build/pdf.worker.js';
 
 // Initialize PDF.js worker
 pdfjs.GlobalWorkerOptions.workerSrc = pdfjsWorker;
