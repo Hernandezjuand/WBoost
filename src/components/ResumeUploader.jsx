@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
 import * as pdfjs from 'pdfjs-dist';
-import workerSrc from 'pdfjs-dist/build/pdf.worker.mjs';
 
 // Initialize PDF.js worker
-pdfjs.GlobalWorkerOptions.workerSrc = workerSrc;
+if (import.meta.env.PROD) {
+  pdfjs.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`;
+} else {
+  pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`;
+}
 
 const ResumeUploader = ({ onResumeUpload }) => {
   const [resumeText, setResumeText] = useState('');

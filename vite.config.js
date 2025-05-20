@@ -24,14 +24,15 @@ export default defineConfig({
       output: {
         manualChunks: {
           react: ['react', 'react-dom'],
-          'pdf-utils': ['jspdf', 'html2pdf.js', 'pdf-lib', 'jspdf-autotable'],
+          'pdf-utils': ['jspdf', 'html2pdf.js', 'pdf-lib', 'jspdf-autotable', 'pdfjs-dist'],
           ui: ['@headlessui/react', '@heroicons/react', 'framer-motion'],
         }
       }
     }
   },
   optimizeDeps: {
-    include: ['pdf-lib', 'buffer'],
+    include: ['pdf-lib', 'buffer', 'pdfjs-dist'],
+    exclude: ['pdfjs-dist/build/pdf.worker.mjs'],
     esbuildOptions: {
       target: 'es2020'
     }
