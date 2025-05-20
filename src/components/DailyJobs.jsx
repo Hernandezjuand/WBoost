@@ -664,6 +664,37 @@ const DailyJobs = ({ onJobSelect }) => {
     return companyName.trim();
   };
 
+  // Helper function to extract job title from markdown formatting
+  const extractJobTitle = (titleCell) => {
+    let jobTitle = titleCell;
+    
+    // Try to extract from bold markdown links
+    const boldLinkMatch = titleCell.match(/\*\*\[(.*?)\]/);
+    if (boldLinkMatch && boldLinkMatch[1]) {
+      jobTitle = boldLinkMatch[1];
+    } else if (titleCell.includes('[') && titleCell.includes(']')) {
+      // Try to extract from regular markdown links
+      const linkMatch = titleCell.match(/\[(.*?)\]/);
+      if (linkMatch && linkMatch[1]) {
+        jobTitle = linkMatch[1];
+      }
+    } else {
+      // Fallback cleanup for any other format
+      jobTitle = titleCell
+        .replace(/\*\*/g, '')  // Remove bold markers
+        .replace(/\[|\]/g, '') // Remove brackets
+        .replace(/\(http.*\)/g, ''); // Remove URLs
+    }
+    
+    return jobTitle.trim();
+  };
+
+  // Helper function to extract job link from markdown formatting
+  const extractJobLink = (titleCell) => {
+    const linkMatch = titleCell.match(/\((https?:\/\/[^)]+)\)/);
+    return linkMatch ? linkMatch[1] : null;
+  };
+
   const handleJobClick = (job, action = 'analyze') => {
     if (onJobSelect && typeof onJobSelect === 'function') {
       onJobSelect({
@@ -1369,46 +1400,64 @@ const DailyJobs = ({ onJobSelect }) => {
               </tr>
             </thead>
             <tbody>
-              {filteredJobs.map((job, index) => (
-                <tr 
-                  key={job.id} 
-                  className="hover:bg-opacity-80 transition-colors"
-                  style={{ 
-                    backgroundColor: index % 2 === 0 
-                      ? (theme.isDarkMode ? 'rgba(30, 41, 59, 0.5)' : 'rgba(241, 245, 249, 0.7)') 
-                      : (theme.isDarkMode ? 'rgba(30, 41, 59, 0.3)' : 'rgba(241, 245, 249, 0.5)')
-                  }}
-                >
-                  <td className="px-4 py-2" style={{ borderColor: theme.colors?.border, color: theme.colors?.text?.primary }}>{job.company}</td>
-                  <td className="px-4 py-2" style={{ borderColor: theme.colors?.border, color: theme.colors?.text?.primary }}>{job.role}</td>
-                  <td className="px-4 py-2" style={{ borderColor: theme.colors?.border, color: theme.colors?.text?.primary }}>{job.level}</td>
-                  <td className="px-4 py-2" style={{ borderColor: theme.colors?.border, color: theme.colors?.text?.primary }}>{job.location}</td>
-                  {activeTab === 'h1b' && (
-                    <td className="px-4 py-2" style={{ borderColor: theme.colors?.border, color: theme.colors?.text?.primary }}>{job.h1bStatus}</td>
-                  )}
-                  {activeTab === 'new-grad-intern' && (
-                    <>
-                      <td className="px-4 py-2" style={{ borderColor: theme.colors?.border, color: theme.colors?.text?.primary }}>{job.jobType}</td>
-                      <td className="px-4 py-2" style={{ borderColor: theme.colors?.border, color: theme.colors?.text?.primary }}>{job.roleType}</td>
-                    </>
-                  )}
-                  <td className="px-4 py-2" style={{ borderColor: theme.colors?.border }}>
-                    {job.linkUrl ? (
-                      <a 
-                        href={job.linkUrl} 
-                        target="_blank" 
-                        rel="noopener noreferrer"
-                        className="text-blue-600 hover:underline dark:text-blue-400 dark:hover:text-blue-300"
-                      >
-                        {job.linkText || 'Apply'}
-                      </a>
-                    ) : (
-                      job.link
+              {filteredJobs.map((job, index) => {
+                const jobTitle = extractJobTitle(job.role);
+                const jobLink = extractJobLink(job.role) || job.linkUrl;
+                
+                return (
+                  <tr 
+                    key={job.id} 
+                    className="hover:bg-opacity-80 transition-colors"
+                    style={{ 
+                      backgroundColor: index % 2 === 0 
+                        ? (theme.isDarkMode ? 'rgba(30, 41, 59, 0.5)' : 'rgba(241, 245, 249, 0.7)') 
+                        : (theme.isDarkMode ? 'rgba(30, 41, 59, 0.3)' : 'rgba(241, 245, 249, 0.5)')
+                    }}
+                  >
+                    <td className="px-4 py-2" style={{ borderColor: theme.colors?.border, color: theme.colors?.text?.primary }}>{job.company}</td>
+                    <td className="px-4 py-2" style={{ borderColor: theme.colors?.border, color: theme.colors?.text?.primary }}>
+                      {jobLink ? (
+                        <a 
+                          href={jobLink}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-blue-600 hover:underline dark:text-blue-400 dark:hover:text-blue-300"
+                        >
+                          {jobTitle}
+                        </a>
+                      ) : (
+                        jobTitle
+                      )}
+                    </td>
+                    <td className="px-4 py-2" style={{ borderColor: theme.colors?.border, color: theme.colors?.text?.primary }}>{job.level}</td>
+                    <td className="px-4 py-2" style={{ borderColor: theme.colors?.border, color: theme.colors?.text?.primary }}>{job.location}</td>
+                    {activeTab === 'h1b' && (
+                      <td className="px-4 py-2" style={{ borderColor: theme.colors?.border, color: theme.colors?.text?.primary }}>{job.h1bStatus}</td>
                     )}
-                  </td>
-                  <td className="px-4 py-2" style={{ borderColor: theme.colors?.border, color: theme.colors?.text?.primary }}>{job.date}</td>
-                </tr>
-              ))}
+                    {activeTab === 'new-grad-intern' && (
+                      <>
+                        <td className="px-4 py-2" style={{ borderColor: theme.colors?.border, color: theme.colors?.text?.primary }}>{job.jobType}</td>
+                        <td className="px-4 py-2" style={{ borderColor: theme.colors?.border, color: theme.colors?.text?.primary }}>{job.roleType}</td>
+                      </>
+                    )}
+                    <td className="px-4 py-2" style={{ borderColor: theme.colors?.border }}>
+                      {jobLink ? (
+                        <a 
+                          href={jobLink} 
+                          target="_blank" 
+                          rel="noopener noreferrer"
+                          className="text-blue-600 hover:underline dark:text-blue-400 dark:hover:text-blue-300"
+                        >
+                          {job.linkText || 'Apply'}
+                        </a>
+                      ) : (
+                        job.link
+                      )}
+                    </td>
+                    <td className="px-4 py-2" style={{ borderColor: theme.colors?.border, color: theme.colors?.text?.primary }}>{job.date}</td>
+                  </tr>
+                );
+              })}
             </tbody>
           </table>
         </>

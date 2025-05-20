@@ -615,11 +615,6 @@ function AppContent() {
       icon: '📝'
     },
     {
-      id: 'linkedin',
-      label: 'LinkedIn Messages',
-      icon: '💼'
-    },
-    {
       id: 'interview',
       label: 'Interview Simulator',
       icon: '🎙️'
@@ -1285,52 +1280,6 @@ function AppContent() {
                   Explore New Opportunities
                 </button>
               </div>
-            </div>
-          )}
-
-          {activeTab === 'linkedin' && (
-            <div 
-              className="p-6 rounded-xl shadow-md space-y-8 transition-colors"
-              style={{ 
-                backgroundColor: theme.colors.card,
-                border: `1px solid ${theme.isDarkMode ? 'rgba(55, 65, 81, 0.2)' : 'rgba(226, 232, 240, 0.7)'}`,
-                boxShadow: theme.isDarkMode ? '0 4px 12px rgba(0,0,0,0.2)' : '0 4px 12px rgba(0,0,0,0.05)'
-              }}
-            >
-              {resume && currentJobDetails ? (
-                <>
-                  <h2 
-                    className="text-xl font-semibold"
-                    style={{ color: theme.colors.text.primary }}
-                  >
-                    LinkedIn Connection Messages
-                  </h2>
-                  <LinkedInMessageGenerator 
-                    personalInfo={documents?.resume?.personalInfo}
-                    resume={documents?.resume}
-                    jobDetails={currentJobDetails}
-                  />
-                </>
-              ) : (
-                <div className="text-center p-8">
-                  <p 
-                    className="text-lg"
-                    style={{ color: theme.colors.text.secondary }}
-                  >
-                    Please upload your resume and analyze a job posting first to generate personalized LinkedIn messages.
-                  </p>
-                  <button
-                    onClick={() => setActiveTab('resume')}
-                    className="mt-4 px-4 py-2 rounded-md transition-colors"
-                    style={{
-                      backgroundColor: theme.colors.button.primary,
-                      color: '#ffffff'
-                    }}
-                  >
-                    Go to Resume & Setup
-                  </button>
-                </div>
-              )}
             </div>
           )}
 

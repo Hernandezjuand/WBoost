@@ -146,6 +146,7 @@ const GeneratedDocuments = ({ documents = {}, onSaveChanges }) => {
   const theme = useTheme();
   const [activeDocumentType, setActiveDocumentType] = useState('resume');
   const [activeProvider, setActiveProvider] = useState('openai');
+  const [activeLinkedInTemplate, setActiveLinkedInTemplate] = useState('sameCareer');
   
   // Set first available provider when documents change
   useEffect(() => {
@@ -256,6 +257,83 @@ const GeneratedDocuments = ({ documents = {}, onSaveChanges }) => {
     }
   };
   
+  // Render LinkedIn Messages section
+  const renderLinkedInMessages = () => {
+    const resume = documents?.resume?.[activeProvider] || {};
+    const jobDetails = documents?.jobDetails || {};
+
+    return (
+      <div className="space-y-6">
+        {/* Template Selection */}
+        <div className="flex flex-wrap gap-3 mb-6">
+          {Object.keys(LINKEDIN_TEMPLATES).map((templateKey) => (
+            <button
+              key={templateKey}
+              onClick={() => setActiveLinkedInTemplate(templateKey)}
+              className={`px-4 py-2 rounded-lg transition-all ${
+                activeLinkedInTemplate === templateKey ? 'font-medium' : ''
+              }`}
+              style={{
+                backgroundColor: activeLinkedInTemplate === templateKey 
+                  ? theme.colors.accent 
+                  : theme.colors.muted,
+                color: activeLinkedInTemplate === templateKey 
+                  ? theme.colors.white 
+                  : theme.colors.text.secondary,
+                border: `1px solid ${
+                  activeLinkedInTemplate === templateKey 
+                    ? theme.colors.accent 
+                    : theme.isDarkMode 
+                      ? 'rgba(75, 85, 99, 0.3)' 
+                      : 'rgba(229, 231, 235, 0.8)'
+                }`
+              }}
+            >
+              {templateKey === 'sameCareer' ? 'Same Career Path' :
+               templateKey === 'industryExpert' ? 'Industry Expert' :
+               templateKey === 'referralRequest' ? 'Referral Request' :
+               templateKey === 'informationalInterview' ? 'Informational Interview' :
+               'Project Based'}
+            </button>
+          ))}
+        </div>
+
+        {/* Message Preview */}
+        <div 
+          className="p-6 rounded-lg border"
+          style={{ 
+            backgroundColor: theme.isDarkMode ? 'rgba(30, 41, 59, 0.5)' : 'rgba(241, 245, 249, 0.7)',
+            borderColor: theme.isDarkMode ? 'rgba(75, 85, 99, 0.3)' : 'rgba(229, 231, 235, 0.5)'
+          }}
+        >
+          <div className="prose max-w-none" style={{ color: theme.colors.text.primary }}>
+            <pre className="whitespace-pre-wrap font-sans">
+              {LINKEDIN_TEMPLATES[activeLinkedInTemplate](resume, jobDetails)}
+            </pre>
+          </div>
+        </div>
+
+        {/* Copy Button */}
+        <div className="flex justify-end">
+          <button
+            onClick={() => {
+              navigator.clipboard.writeText(LINKEDIN_TEMPLATES[activeLinkedInTemplate](resume, jobDetails));
+              // You could add a toast notification here
+            }}
+            className="px-4 py-2 rounded-lg transition-all flex items-center gap-2"
+            style={{
+              backgroundColor: theme.colors.button.primary,
+              color: 'white'
+            }}
+          >
+            <span>📋</span>
+            Copy Message
+          </button>
+        </div>
+      </div>
+    );
+  };
+
   return (
     <div
       className="rounded-lg shadow-lg p-6"
@@ -314,7 +392,11 @@ const GeneratedDocuments = ({ documents = {}, onSaveChanges }) => {
       
       {/* Document Content */}
       <div className="mb-4">
-        {renderActiveDocument()}
+        {activeDocumentType === 'linkedinMessages' ? (
+          renderLinkedInMessages()
+        ) : (
+          renderActiveDocument()
+        )}
       </div>
     </div>
   );
