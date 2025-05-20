@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import * as pdfjs from 'pdfjs-dist';
-import pdfjsWorker from 'pdfjs-dist/build/pdf.worker.js';
+import workerSrc from 'pdfjs-dist/build/pdf.worker.mjs';
 
 // Initialize PDF.js worker
-pdfjs.GlobalWorkerOptions.workerSrc = pdfjsWorker;
+pdfjs.GlobalWorkerOptions.workerSrc = workerSrc;
 
 const ResumeUploader = ({ onResumeUpload }) => {
   const [resumeText, setResumeText] = useState('');
