@@ -21,6 +21,11 @@ if (!fs.existsSync('uploads')) {
   fs.mkdirSync('uploads');
 }
 
+// Serve static files from the React app in production
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static(path.join(__dirname, 'dist')));
+}
+
 app.post('/api/rendercv', async (req, res) => {
   const { content } = req.body;
   
@@ -58,6 +63,13 @@ app.post('/api/rendercv', async (req, res) => {
     res.status(500).json({ error: 'Failed to generate PDF' });
   }
 });
+
+// The "catchall" handler: for any request that doesn't match one above, send back the index.html file.
+if (process.env.NODE_ENV === 'production') {
+  app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'dist', 'index.html'));
+  });
+}
 
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
