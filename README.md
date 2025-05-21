@@ -65,6 +65,28 @@ A comprehensive toolkit for modern job seekers, powered by AI.
 
 4. Configure your AI provider API keys in the application settings
 
+## API Keys Setup
+
+To use the full functionality of the AI Career Assistant, you'll need to configure API keys for the AI providers. The application supports multiple AI providers, but you only need to set up one to get started.
+
+### Recommended: Google Gemini (Free Tier Available)
+- **Sign up**: Visit [Google AI Studio](https://aistudio.google.com/app/apikey) to create a free account
+- **Get API Key**: Generate an API key (no credit card required)
+- **Benefits**: Free tier with generous quota, great for testing and personal use
+
+### Alternative Providers:
+1. **OpenAI**
+   - Sign up at [OpenAI Platform](https://platform.openai.com/api-keys)
+   - Requires credit card for pay-as-you-go pricing
+
+2. **Anthropic Claude**
+   - Sign up at [Anthropic Console](https://console.anthropic.com/settings/keys)
+   - Requires credit card for pay-as-you-go pricing
+
+3. **DeepSeek**
+   - Sign up at [DeepSeek Platform](https://platform.deepseek.com/api_keys)
+   - Free trial credits available
+
 ## Usage
 
 ### Resume Upload
@@ -93,10 +115,29 @@ Track all your applications in the ApplicationTracker, which provides a comprehe
 - Resume Upload
 - Notes
 
+### Interview Simulator
+Practice for interviews with our AI-powered simulator that:
+- Generates role-specific questions based on your resume and job description
+- Provides detailed feedback on your responses
+- Offers a hiring assessment and score
+
+## Deployment
+
+### Deploy to Vercel (Recommended)
+1. Fork this repository to your GitHub account
+2. Sign up for a [Vercel](https://vercel.com) account
+3. Create a new project and import your GitHub repository
+4. Deploy with default settings - Vercel will automatically detect the correct configuration
+
+### Other Hosting Options
+- Netlify
+- GitHub Pages
+- Any static site hosting service
+
 ## Technologies
 
 - **Frontend**: React, TailwindCSS, Framer Motion
-- **AI Integration**: OpenAI API, DeepSeek API, Gemini API
+- **AI Integration**: OpenAI API, DeepSeek API, Gemini API, Anthropic API
 - **Data Persistence**: LocalStorage
 
 ## Contributing

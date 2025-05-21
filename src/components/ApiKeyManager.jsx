@@ -89,6 +89,18 @@ const ApiKeyManager = ({ onApiKeysSet }) => {
         )}
       </div>
 
+      {/* API Provider Recommendation Notice */}
+      <div className="mb-6 p-4 rounded-lg border border-blue-200 bg-blue-50 dark:bg-blue-900/20 dark:border-blue-800">
+        <h3 className="font-medium text-blue-800 dark:text-blue-300 flex items-center">
+          <span className="mr-2">💡</span>
+          API Key Recommendation
+        </h3>
+        <p className="mt-2 text-sm text-blue-700 dark:text-blue-300">
+          <strong>Gemini</strong> is recommended as it offers a <strong>free tier</strong> with the first API key at no cost.
+          All API providers require sign-up, but Gemini provides the most accessible option for testing.
+        </p>
+      </div>
+
       {!isEditing ? (
         <div className="space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -122,7 +134,10 @@ const ApiKeyManager = ({ onApiKeysSet }) => {
               <p className="text-sm text-muted-foreground mb-2">API Key: {maskApiKey(tempKeys.deepseek)}</p>
             </div>
 
-            <div className="p-4 border rounded-lg bg-card">
+            <div className="p-4 border rounded-lg bg-card relative">
+              <div className="absolute -top-2 -right-2">
+                <span className="px-2 py-1 bg-green-500 text-white text-xs rounded-full shadow-sm">Recommended</span>
+              </div>
               <div className="flex items-center justify-between mb-2">
                 <h3 className="font-semibold">Gemini</h3>
                 <span className={`px-2 py-1 rounded-full text-xs ${selectedProviders.gemini ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'}`}>
@@ -160,6 +175,17 @@ const ApiKeyManager = ({ onApiKeysSet }) => {
                 placeholder="Enter OpenAI API key (sk-...)"
                 className="w-full px-3 py-2 bg-background border border-input rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
               />
+              <div className="mt-2 text-xs text-gray-500">
+                <a 
+                  href="https://platform.openai.com/api-keys" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="text-blue-600 hover:underline"
+                >
+                  Get your API key from OpenAI Platform
+                </a>
+                <p className="mt-1">Requires credit card. Pay-as-you-go pricing.</p>
+              </div>
             </div>
 
             <div className="p-4 border rounded-lg bg-card">
@@ -186,6 +212,17 @@ const ApiKeyManager = ({ onApiKeysSet }) => {
                 placeholder="Enter Anthropic API key (sk-ant-...)"
                 className="w-full px-3 py-2 bg-background border border-input rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
               />
+              <div className="mt-2 text-xs text-gray-500">
+                <a 
+                  href="https://console.anthropic.com/settings/keys" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="text-blue-600 hover:underline"
+                >
+                  Get your API key from Anthropic Console
+                </a>
+                <p className="mt-1">Requires credit card. Pay-as-you-go pricing.</p>
+              </div>
             </div>
 
             <div className="p-4 border rounded-lg bg-card">
@@ -212,13 +249,30 @@ const ApiKeyManager = ({ onApiKeysSet }) => {
                 placeholder="Enter DeepSeek API key"
                 className="w-full px-3 py-2 bg-background border border-input rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
               />
+              <div className="mt-2 text-xs text-gray-500">
+                <a 
+                  href="https://platform.deepseek.com/api_keys" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="text-blue-600 hover:underline"
+                >
+                  Get your API key from DeepSeek Platform
+                </a>
+                <p className="mt-1">Requires sign-up. Has some free trial credits.</p>
+              </div>
             </div>
 
-            <div className="p-4 border rounded-lg bg-card">
+            <div className="p-4 border rounded-lg bg-card border-green-200 bg-green-50/30 dark:bg-green-900/10">
+              <div className="absolute -top-2 -right-2">
+                <span className="px-2 py-1 bg-green-500 text-white text-xs rounded-full shadow-sm">Recommended</span>
+              </div>
               <div className="flex items-center justify-between mb-4">
                 <div>
-                  <h3 className="font-semibold">Gemini</h3>
-                  <p className="text-sm text-muted-foreground">Google's Gemini AI</p>
+                  <h3 className="font-semibold flex items-center">
+                    Gemini 
+                    <span className="ml-2 px-2 py-0.5 bg-green-100 text-green-800 text-xs rounded-md">Free Tier Available</span>
+                  </h3>
+                  <p className="text-sm text-muted-foreground">Google's Gemini AI - Recommended for best results</p>
                 </div>
                 <label className="relative inline-flex items-center cursor-pointer">
                   <input
@@ -238,6 +292,17 @@ const ApiKeyManager = ({ onApiKeysSet }) => {
                 placeholder="Enter Gemini API key"
                 className="w-full px-3 py-2 bg-background border border-input rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
               />
+              <div className="mt-2 text-xs text-gray-500">
+                <a 
+                  href="https://aistudio.google.com/app/apikey" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="text-blue-600 hover:underline font-medium"
+                >
+                  Get your FREE API key from Google AI Studio
+                </a>
+                <p className="mt-1">No credit card required. First API key is completely free with generous quota.</p>
+              </div>
             </div>
           </div>
 
